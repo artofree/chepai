@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block body %}
+    	<div class="wrapper">
+		<!--=== Content Part ===-->
+		<div class="container content">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+					<form class="reg-page" action="{% url 'dologin' %}" method="post">
+                         {% csrf_token %}
+						<div class="reg-header">
+							<h2>选择菜单</h2>
+						</div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20px">
+                                <a href="{% url 'train' %}" class="btn-u btn-u-lg rounded" style="margin-bottom: 20px;width: 100%;text-align: center">训练</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 20px">
+                                <a href="{% url 'fight' %}" class="btn-u btn-u-lg rounded" style="margin-bottom: 20px;width: 100%;text-align: center">实战</a>
+                            </div>
+                        </div>
+					</form>
+				</div>
+			</div><!--/row-->
+		</div><!--/container-->
+		<!--=== End Content Part ===-->
+	</div><!--/wrapper-->
+{% endblock %}
+
