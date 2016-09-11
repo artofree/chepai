@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div id="coreContent" class="col-xs-12" style="text-align: center">
+                <h2 id="train-img" style="width: 100%;height: 200px;color: black">暂无验证进行
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-xs-offset-3" style="text-align: center">
+                <strong>你的输入：</strong>
+            </div>
+            <input id="train-input" class="col-xs-2" type="text" style="border: 1px solid grey;text-align: center;height: 23px">
+            <div class="col-xs-1 col-xs-offset-1">
+                <button id="train-timer" class="btn-u btn-u-xs btn-u-red" type="button" style="width: 100%">0</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div id="modalDlg" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="modalContent" class="modal-body" style="text-align: center">
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button id="close_button" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var parms = [];
+        parms["getCodeImg"] = "{% url 'getCodeImg' %}";
+        parms["setCode"] = "{% url 'setCode' %}";
+    </script>
+    <script src="{% static 'polls/js/fightW.js' %}"></script>
+{% endblock %}

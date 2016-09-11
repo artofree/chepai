@@ -57,11 +57,13 @@ def mainpage(request):
 
 
 def train(request):
-    return render(request, 'polls/train.html')
+    # return render(request, 'polls/train.html')
+    return render(request, 'polls/trainW.html')
 
 
 def fight(request):
-    return render(request, 'polls/fight.html')
+    # return render(request, 'polls/fightW.html')
+    return render(request, 'polls/fightW.html')
 
 
 def getTrainPhoto(request):

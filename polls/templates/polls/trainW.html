@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+    <style>
+        .container-fluid {
+            text-align: center;
+        }
+    #train-img{
+        display: inline-block;
+        width: 400px;
+        height: 240px;
+        margin-bottom: 50px
+    }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <img id="train-img" class="img-responsive" src="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-xs-offset-3" style="text-align: center">
+                <strong>你的输入：</strong>
+            </div>
+            <input id="train-input" class="col-xs-2" type="text" style="border: 1px solid grey;text-align: center;height: 23px">
+            <div class="col-xs-1 col-xs-offset-1">
+                <button id="train-timer" class="btn-u btn-u-xs btn-u-red" type="button" style="width: 100%">0</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div id="modalDlg" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="modalContent" class="modal-body" style="text-align: center">
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button id="close_button" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var parms = [];
+        parms["photoUrl"] = "{% url 'getTrainPhoto' %}";
+    </script>
+    <script src="{% static 'polls/js/trainW.js' %}"></script>
+{% endblock %}
