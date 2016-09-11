@@ -98,4 +98,3 @@ $(document).bind('touchstart', function (event) {
     }
     event.preventDefault();
 });
-
