@@ -11,7 +11,7 @@ function changeButton() {
 
 function initFrame() {
     var theH = $(window).height();
-    var dlgMargin = (theH / 3 + 50).toString() + "px";
+    var dlgMargin = (theH *4 /7).toString() + "px";
     $("#modalDlg").css("margin-top", dlgMargin);
     $("input").focus();
 }

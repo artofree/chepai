@@ -90,7 +90,10 @@ def uploadPic(request):
             lock.release()
     print(datetime.datetime.now())
 
-
+#0:是否已倒计时
+#1:时间戳
+#2:文件路径
+#3:身份证号
 def getCodeImg(request):
     usr = request.user.username
     theList =idDict[authDict[usr]]

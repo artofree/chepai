@@ -28,7 +28,7 @@ function getCodeImg() {
         }
         ///验证状态中
         else if (theList[0] == '1') {
-            ///状态切换
+            ///状态切换，开始倒计时
             if (!isActive) {
                 isActive = 1;
                 $("#coreContent").html('<h2 id="train-img" style="width: 100%;color: black">验证将在<mark id="countdown"></mark>秒后开始</h2>');
@@ -37,10 +37,12 @@ function getCodeImg() {
                 setTimeout("getCodeImg()", 200);
             }
             else {
+                ///未上传验证图，继续倒计时
                 if (theList[2] == '') {
                     $("#countdown").text(theList[1]);
                     setTimeout("getCodeImg()", 200);
                 }
+                ///开始解码
                 else {
                     $("#coreContent").html('<img id="train-img" class="img-responsive" src="" style="width: 100%;margin-bottom: 10px">');
                     $("#train-img").height(imgHeight);
