@@ -11,6 +11,8 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from polls.models import Picture
 
+#时间戳，1
+timeStamp =0
 expPhotoList = []
 #0：id
 #1：文件路径
@@ -135,3 +137,8 @@ def setTimeStamp(request):
 
 def gettest(request):
     return HttpResponse("1")
+
+def gettesttime(request):
+    theT =str(time.time())
+    print(theT)
+    return HttpResponse(theT)
