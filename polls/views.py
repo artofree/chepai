@@ -11,7 +11,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from polls.models import Picture
 
-#时间戳，1
+#时间戳，12
 timeStamp =0
 expPhotoList = []
 #0：id
