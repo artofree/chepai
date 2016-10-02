@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^setTimeStamp$', 'polls.views.setTimeStamp', name='setTimeStamp'),
     url(r'^getCode$', 'polls.views.getCode', name='getCode'),
     url(r'^gettest$', 'polls.views.gettest', name='gettest'),
+    url(r'^gettesttime$', 'polls.views.gettesttime', name='gettesttime'),
 ]
 
 if settings.DEBUG is False:
