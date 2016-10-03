@@ -24,6 +24,7 @@ def makeTimeStamp():
         theM =int(now.strftime('%M'))
         theS =int(now.strftime('%S'))
         theStamp =theH *3600 +theM *60 +theS -baseTime +int(now.strftime('%f')[:2]) /100 -stampDlt
+        theStamp =round(theStamp ,2)
         if 0 <theStamp <60:
             timeStamp =theStamp
         time.sleep(0.1)
@@ -149,6 +150,7 @@ def setTimeStamp(request):
     global stampDlt
     now =datetime.datetime.now()
     stampDlt =int(now.strftime('%H')) *3600 +int(now.strftime('%M')) *60 +int(now.strftime('%S')) +int(now.strftime('%f')[:2]) /100 -baseTime -baseS
+    stampDlt =round(stampDlt ,2)
     print(stampDlt)
 
 def getTimeStamp(request):
