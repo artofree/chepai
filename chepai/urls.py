@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^getCodeImg$', 'polls.views.getCodeImg', name='getCodeImg'),
     url(r'^setCode$', 'polls.views.setCode', name='setCode'),
     url(r'^setTimeStamp$', 'polls.views.setTimeStamp', name='setTimeStamp'),
+    url(r'^getTimeStamp$', 'polls.views.getTimeStamp', name='getTimeStamp'),
     url(r'^getCode$', 'polls.views.getCode', name='getCode'),
     url(r'^gettest$', 'polls.views.gettest', name='gettest'),
     url(r'^gettesttime$', 'polls.views.gettesttime', name='gettesttime'),

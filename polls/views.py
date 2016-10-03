@@ -12,7 +12,27 @@ from django.contrib.auth.models import User
 from polls.models import Picture
 
 #时间戳，12
-timeStamp =0
+timeStamp ,stampDlt=0 ,0
+baseH ,baseM ,baseS=11 ,29 ,23
+baseTime =baseH *3600 +baseM *60
+
+def makeTimeStamp():
+    global timeStamp
+    while 1:
+        now =datetime.datetime.now()
+        theH =int(now.strftime('%H'))
+        theM =int(now.strftime('%M'))
+        theS =int(now.strftime('%S'))
+        theStamp =theH *3600 +theM *60 +theS -baseTime +float(now.strftime('%f')[:2]) /100 -stampDlt
+        if 0 <theStamp <60:
+            timeStamp =theStamp
+        time.sleep(0.1)
+
+t= threading.Thread(target=makeTimeStamp)
+t.start()
+
+###########################################################
+
 expPhotoList = []
 #0：id
 #1：文件路径
@@ -126,17 +146,17 @@ def getCode(request):
     return HttpResponse(idDict[idt][5])
 
 def setTimeStamp(request):
-    idt = request.POST['idt']
-    timeStamp = request.POST['timeStamp']
-    print(timeStamp)
-    lock.acquire()
-    try:
-        idDict[idt][2] =timeStamp
-    finally:
-        lock.release()
+    global stampDlt
+    now =datetime.datetime.now()
+    stampDlt =int(now.strftime('%H')) *3600 +int(now.strftime('%M')) *60 +int(now.strftime('%S')) +float(now.strftime('%f')[:2]) /100 -baseTime -baseS
+    print(stampDlt)
+
+def getTimeStamp(request):
+    global timeStamp
+    return HttpResponse(timeStamp)
 
 def gettest(request):
-    return HttpResponse("1")
+    return HttpResponse(1)
 
 def gettesttime(request):
     theT =str(time.time())
