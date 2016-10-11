@@ -37,13 +37,13 @@ t.start()
 expPhotoList = []
 #0：id
 #1：文件路径
-#2：时间戳
-#3：发码时间
-#4：解码时间
+#2：时间戳（暂无用）
+#3：发码时间（暂无用）
+#4：解码时间（暂无用）
 #5：code
-idDict ={'0001':['test1',0,0,0,0,'0'] ,'0002':['test2',0,0,0,0,'0']}
-authDict ={'test1':'0001' ,'test2':'0002'}
-codeMonth ='2016_09'
+idDict ={'0001':['test',0,0,0,0,'0'] ,'0002':['test2',0,0,0,0,'0']}
+authDict ={'test':'0001' ,'test2':'0002'}
+codeMonth ='2016_10'
 lock = threading.Lock()
 
 
@@ -116,6 +116,7 @@ def uploadPic(request):
 #2:文件路径
 #3:身份证号
 def getCodeImg(request):
+    global timeStamp
     usr = request.user.username
     theList =idDict[authDict[usr]]
     ret =''
@@ -123,8 +124,11 @@ def getCodeImg(request):
         ret ='1--' +theList[1] +'-' +authDict[usr]
         print(datetime.datetime.now())
     else:
-        if int(theList[2]) >0:
-            ret ='1-' +str(theList[2]) +'-'
+        if timeStamp >0:
+            if 47 -int(timeStamp) >0:
+                ret ='1-' +str(47 -int(timeStamp)) +'-'
+            else:
+                ret ='1-' +'0' +'-'
         else:
             ret ='0--'
     return HttpResponse(ret)

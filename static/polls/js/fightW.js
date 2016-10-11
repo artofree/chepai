@@ -3,15 +3,17 @@ var isActive = 0;
 var train_timer = 0;
 var inputString = "";
 var isWork = 0;
-var theTimer = 0;
-var idt =0;
+var theTime = 0;
+var idt = 0;
 
 
 function initFrame() {
     var theH = $(window).height();
     imgHeight = theH / 3;
     $("#train-img").height(imgHeight);
-    $(".num").height((theH - theH / 3 - 105) / 4);
+    var dlgMargin = (theH *4 /7).toString() + "px";
+    $("#modalDlg").css("margin-top", dlgMargin);
+    $("input").focus();
 }
 
 function changeButton() {
@@ -45,10 +47,17 @@ function getCodeImg() {
                 ///开始解码
                 else {
                     $("#coreContent").html('<img id="train-img" class="img-responsive" src="" style="width: 100%;margin-bottom: 10px">');
-                    $("#train-img").height(imgHeight);
                     $("#train-img").attr("src", theList[2]);
-                    idt =theList[3];
+                    $("#train-img").css({
+                        "display": "inline-block",
+                        "width": "400px",
+                        "height": "240px",
+                        "margin-bottom": "50px"
+                    });
+                    idt = theList[3];
                     isWork = 1;
+                    var myDate = new Date();
+                    theTime = myDate.getTime();
                     setInterval('changeButton()', 1000);
                 }
             }
@@ -65,38 +74,26 @@ $(document).ready(function () {
     initFun();
 });
 
-
-$(document).bind('touchmove', function (event) {
-    event.preventDefault();
-});
-
-$(document).bind('touchstart', function (event) {
-    var tar = event.originalEvent.targetTouches[0].target;
-    if (tar.id != 'close_button') {
-        if (isWork) {
-            if (tar.id != 'train-timer' && tar.nodeName == 'BUTTON') {
-                var content = tar.innerText;
-                if (content == "<-") {
-                    inputString = inputString.substring(0, inputString.length - 1);
-                    $("#train-input").text(inputString);
-                }
-                else if (content.length > 1) {
-                    inputString = $("#train-input").text();
-                    ///setCode
-                    $.post(parms.setCode,
-                        {
-                            idt: idt,
-                            code: inputString
-                        },
-                        function (data, status) {
-                        });
-                }
-                else {
-                    inputString += content;
-                    $("#train-input").text(inputString);
-                }
+$(document).ready(function () {
+    $("#train-input").keydown(function (event) {
+        if (event.which == '13') {
+            if (isWork) {
+                inputString = $("#train-input").val();
+                ///setCode
+                $.post(parms.setCode,
+                    {
+                        idt: idt,
+                        code: inputString
+                    },
+                    function (data, status) {
+                    });
+                var myDate = new Date();
+                var theContent = (myDate.getTime() - theTime).toString();
+                theContent = "<h3>你的答案为：" + inputString + "</h3><br><strong>用时： " + theContent + " 毫秒</strong>";
+                $("#modalContent").html(theContent);
+                $('#myModal').modal();
+                $("#close_button").focus();
             }
         }
-    }
-    event.preventDefault();
+    });
 });
