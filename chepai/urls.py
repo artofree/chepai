@@ -31,6 +31,10 @@ urlpatterns = [
     url(r'^setTimeStamp$', 'polls.views.setTimeStamp', name='setTimeStamp'),
     url(r'^getTimeStamp$', 'polls.views.getTimeStamp', name='getTimeStamp'),
     url(r'^getCode$', 'polls.views.getCode', name='getCode'),
+    url(r'^getVersion$', 'polls.views.getVersion', name='getVersion'),
+    url(r'^getVersionContent$', 'polls.views.getVersionContent', name='getVersionContent'),
+    url(r'^setVersionContent$', 'polls.views.setVersionContent', name='setVersionContent'),
+    url(r'^getOrderInfo$', 'polls.views.getOrderInfo', name='getOrderInfo'),
     url(r'^gettest$', 'polls.views.gettest', name='gettest'),
     url(r'^gettesttime$', 'polls.views.gettesttime', name='gettesttime'),
 ]

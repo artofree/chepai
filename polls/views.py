@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from polls.models import Picture
+from django.http import FileResponse
 
 #时间戳，12
 timeStamp ,stampDlt=0 ,0
@@ -33,7 +34,7 @@ t= threading.Thread(target=makeTimeStamp)
 t.start()
 
 ###########################################################
-
+curVersion =0
 expPhotoList = []
 #0：id
 #1：文件路径
@@ -43,6 +44,7 @@ expPhotoList = []
 #5：code
 idDict ={'0001':['test',0,0,0,0,'0'] ,'0002':['test2',0,0,0,0,'0']}
 authDict ={'test':'0001' ,'test2':'0002'}
+hostDict ={'newguo' :['53689363' ,'7570' ,'0001']}
 codeMonth ='2016_10'
 lock = threading.Lock()
 
@@ -90,6 +92,8 @@ def fight(request):
 def getTrainPhoto(request):
     ret =expPhotoList[random.randint(0 ,49)]
     return HttpResponse(ret)
+
+##########################################################################
 
 def uploadPic(request):
     print(datetime.datetime.now())
@@ -158,6 +162,33 @@ def setTimeStamp(request):
 def getTimeStamp(request):
     global timeStamp
     return HttpResponse(timeStamp)
+
+def getVersion(request):
+    global curVersion
+    return HttpResponse(curVersion)
+
+def getVersionContent(request):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    purl ='static/verFile'
+    BASE_DIR =os.path.join(BASE_DIR ,purl)
+    response = FileResponse(open(BASE_DIR, 'rb'))
+    return response
+
+def setVersionContent(request):
+    global curVersion
+    verFile =request.FILES['file']
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    purl ='static/verFile'
+    BASE_DIR =os.path.join(BASE_DIR ,purl)
+    with open(BASE_DIR, 'wb+') as destination:
+        for chunk in verFile.chunks():
+            destination.write(chunk)
+    curVersion +=1
+    return HttpResponse('ok!')
+
+def getOrderInfo(request):
+    hostname = request.GET['hostname']
+    return HttpResponse('-'.join(hostDict[hostname]))
 
 def gettest(request):
     return HttpResponse(1)
