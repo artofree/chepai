@@ -5,13 +5,17 @@ var inputString = "";
 var isWork = 0;
 var theTime = 0;
 var idt = 0;
+var codetimes = 0;
+var firstTime = 0;
+var firstCode = 0;
+var theTimer;
 
 
 function initFrame() {
     var theH = $(window).height();
     imgHeight = theH / 3;
     $("#train-img").height(imgHeight);
-    var dlgMargin = (theH *4 /7).toString() + "px";
+    var dlgMargin = (theH * 4 / 7).toString() + "px";
     $("#modalDlg").css("margin-top", dlgMargin);
     $("input").focus();
 }
@@ -27,6 +31,9 @@ function getCodeImg() {
         ///暂无验证
         if (theList[0] == '0') {
             setTimeout("getCodeImg()", 5000);
+        }
+        else if(theList[0] == '2'){
+            setTimeout("getCodeImg()", 200);
         }
         ///验证状态中
         else if (theList[0] == '1') {
@@ -46,7 +53,15 @@ function getCodeImg() {
                 }
                 ///开始解码
                 else {
-                    $("#coreContent").html('<img id="train-img" class="img-responsive" src="" style="width: 100%;margin-bottom: 10px">');
+                    var codeTimes = '';
+                    if (codetimes == 0) {
+                        codeTimes = '<h2 style="color: black">第一码：</h2>';
+                    }
+                    else {
+                        codeTimes = '<h2 style="color: black">第二码：</h2>';
+                    }
+
+                    $("#coreContent").html(codeTimes + '<img id="train-img" class="img-responsive" src="" style="width: 100%;margin-bottom: 10px">');
                     $("#train-img").attr("src", theList[2]);
                     $("#train-img").css({
                         "display": "inline-block",
@@ -56,9 +71,10 @@ function getCodeImg() {
                     });
                     idt = theList[3];
                     isWork = 1;
+                    codetimes += 1;
                     var myDate = new Date();
                     theTime = myDate.getTime();
-                    setInterval('changeButton()', 1000);
+                    theTimer =setInterval('changeButton()', 1000);
                 }
             }
         }
@@ -88,11 +104,21 @@ $(document).ready(function () {
                     function (data, status) {
                     });
                 var myDate = new Date();
-                var theContent = (myDate.getTime() - theTime).toString();
-                theContent = "<h3>你的答案为：" + inputString + "</h3><br><strong>用时： " + theContent + " 毫秒</strong>";
-                $("#modalContent").html(theContent);
-                $('#myModal').modal();
-                $("#close_button").focus();
+                if (codetimes == 1) {
+                    firstTime = (myDate.getTime() - theTime).toString();
+                    firstCode = inputString;
+                    train_timer =0;
+                    clearInterval(theTimer);
+                    setTimeout("getCodeImg()", 200);
+                }
+                else {
+                    var theContent = (myDate.getTime() - theTime).toString();
+                    theContent = "<h3>你的第二码答案为：" + inputString + "</h3><br><strong>用时： " + theContent + " 毫秒</strong>";
+                    theContent = "<br><br><h3>你的第一码答案为：" + firstCode + "</h3><br><strong>用时： " + firstTime + " 毫秒</strong>" + theContent;
+                    $("#modalContent").html(theContent);
+                    $('#myModal').modal();
+                    $("#close_button").focus();
+                }
             }
         }
     });

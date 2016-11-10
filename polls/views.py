@@ -28,6 +28,9 @@ def makeTimeStamp():
         theStamp =round(theStamp ,2)
         if 0 <theStamp <60:
             timeStamp =theStamp
+        else:
+            #写入数据库
+            pass
         time.sleep(0.1)
 
 t= threading.Thread(target=makeTimeStamp)
@@ -36,16 +39,16 @@ t.start()
 ###########################################################
 curVersion =0
 expPhotoList = []
-#0：id
+#0：打码id
 #1：文件路径
-#2：时间戳（暂无用）
+#2：第几个码
 #3：发码时间（暂无用）
 #4：解码时间（暂无用）
 #5：code
 idDict ={'362229198511230013':['test',0,0,0,0,'0'] ,'0002':['test2',0,0,0,0,'0']}
 authDict ={'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={'newguo' :['53689363' ,'7570' ,'362229198511230013']}
-codeMonth ='2016_10'
+codeMonth ='2016_11'
 lock = threading.Lock()
 
 
@@ -56,7 +59,7 @@ with codecs.open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__
         expPhotoList.append(line.strip())
 
 
-
+##############################################################################
 def login(request):
     return render(request, 'polls/login.html')
 
@@ -81,39 +84,19 @@ def mainpage(request):
         return render(request, 'polls/login.html')
 
 
+###train
 def train(request):
     return render(request, 'polls/trainW.html')
-
-
-def fight(request):
-    return render(request, 'polls/fightW.html')
-
 
 def getTrainPhoto(request):
     ret =expPhotoList[random.randint(0 ,49)]
     return HttpResponse(ret)
 
-##########################################################################
 
-def uploadPic(request):
-    print(datetime.datetime.now())
-    if request.method == 'POST':
-        idt =request.POST['idt']
-        pic =request.FILES['file']
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        purl ='static/codePic'
-        purl =os.path.join(purl ,codeMonth)
-        purl =os.path.join(purl ,idt +'.png')
-        BASE_DIR =os.path.join(BASE_DIR ,purl)
-        with open(BASE_DIR, 'wb+') as destination:
-            for chunk in pic.chunks():
-                destination.write(chunk)
-        lock.acquire()
-        try:
-            idDict[idt][1] =purl
-        finally:
-            lock.release()
-    print(datetime.datetime.now())
+###fight
+def fight(request):
+    return render(request, 'polls/fightW.html')
+
 
 #0:是否已倒计时
 #1:时间戳
@@ -126,15 +109,16 @@ def getCodeImg(request):
     ret =''
     if theList[1] !=0:
         ret ='1--' +theList[1] +'-' +authDict[usr]
-        print(datetime.datetime.now())
+        theList[1] =0
     else:
-        if timeStamp >0:
-            if 47 -int(timeStamp) >0:
-                ret ='1-' +str(47 -int(timeStamp)) +'-'
+        if theList[2] ==0:
+            if timeStamp >0:
+                if 37 -int(timeStamp) >0:
+                    ret ='1-' +str(37 -int(timeStamp)) +'-'
+                else:
+                    ret ='1-' +'0' +'-'
             else:
-                ret ='1-' +'0' +'-'
-        else:
-            ret ='0--'
+                ret ='0--'
     return HttpResponse(ret)
 
 
@@ -147,6 +131,35 @@ def setCode(request):
         idDict[idt][5] =code
     finally:
         lock.release()
+
+##########################################################################
+
+def uploadPic(request):
+    print(datetime.datetime.now())
+    if request.method == 'POST':
+        idt =request.POST['idt']
+        times =request.POST['times']
+        pic =request.FILES['file']
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        purl ='static/codePic'
+        purl =os.path.join(purl ,codeMonth)
+        purl =os.path.join(purl ,idt + '_' +times +'.png')
+        BASE_DIR =os.path.join(BASE_DIR ,purl)
+        with open(BASE_DIR, 'wb+') as destination:
+            for chunk in pic.chunks():
+                destination.write(chunk)
+        lock.acquire()
+        try:
+            idDict[idt][1] =purl
+            if idDict[idt][2] ==0:
+                idDict[idt][2] =1
+            else:
+                idDict[idt][2] =2
+        finally:
+            lock.release()
+    print(datetime.datetime.now())
+
+
 
 def getCode(request):
     idt = request.GET['idt']
@@ -186,10 +199,12 @@ def setVersionContent(request):
     curVersion +=1
     return HttpResponse('ok!')
 
+
 def getOrderInfo(request):
     hostname = request.GET['hostname']
     return HttpResponse('-'.join(hostDict[hostname]))
 
+###测试部分
 def gettest(request):
     return HttpResponse(1)
 
