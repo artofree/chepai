@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django_extensions',
     'polls',
 )
 
@@ -111,3 +113,21 @@ if DEBUG is False:
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE =True
+
+
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'level': 'CRITICAL',
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'werkzeug': {
+#             'handlers': ['console'],
+#             'level': 'CRITICAL',
+#             'propagate': True,
+#         },
+#     },
+# }

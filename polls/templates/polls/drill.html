@@ -21,7 +21,7 @@
                 </h1>
             </div>
             <div class="col-xs-4" style="text-align: center">
-                <img id="theImg" style="border: 1px solid grey;margin-top: 30px;width: 400px;height: 240px">
+                <img id="theImg" style="border: 1px solid grey;margin-top: 30px;width: 300px;height: 180px">
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
@@ -57,7 +57,7 @@
 {% block js %}
     <script>
         var parms = [];
-        parms["setCode"] = "{% url 'setCode' %}";
+        parms["getDrillInfo"] = "{% url 'getDrillInfo' %}";
     </script>
-    <script src="{% static 'polls/js/fightW.js' %}"></script>
+    <script src="{% static 'polls/js/drill.js' %}"></script>
 {% endblock %}
