@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'polls.views.login', name='login'),
     url(r'^dologin$', 'polls.views.dologin', name='dologin'),
+    url(r'^getusrname$', 'polls.views.getusrname', name='getusrname'),
     url(r'^mainpage$', 'polls.views.mainpage', name='mainpage'),
     url(r'^train$', 'polls.views.train', name='train'),
     url(r'^fight$', 'polls.views.fight', name='fight'),

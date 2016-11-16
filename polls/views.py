@@ -111,6 +111,10 @@ def dologin(request):
     else:
         return HttpResponse("用户名或密码错误")
 
+def getusrname(request):
+    usr = request.user.username
+    return HttpResponse(usr)
+
 
 def mainpage(request):
     if request.user.is_authenticated():
@@ -318,6 +322,7 @@ def setVersionContent(request):
 def getOrderInfo(request):
     hostname = request.GET['hostname']
     return HttpResponse('~'.join(hostDict[hostname]))
+
 
 
 ###测试部分

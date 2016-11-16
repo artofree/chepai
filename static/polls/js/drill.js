@@ -87,7 +87,10 @@ $(document).ready(function () {
         $("#title").html('验证将在<mark id="countdown"></mark>秒后开始');
         $("#countdown").text(countNum.toString());
         countTimer = setInterval('countDown()', 1000);
-    })
+    });
+    $.get(parms.getusrname, function (ret) {
+        $("#usrname").text(ret);
+    });
 });
 
 $(document).ready(function () {

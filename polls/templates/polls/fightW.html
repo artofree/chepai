@@ -34,11 +34,15 @@
                 <button id="train-timer" class="btn-u btn-u-xs btn-u-red" type="button" style="width: 100%">0</button>
             </div>
         </div>
-        <div style="margin-top: 150px" class="row">
-            <div id="answer1" class="col-xs-6" style="text-align: center">
+        <HR style="color: black;margin-top: 75px">
+        <div style="margin-top: 75px" class="row">
+            <div id="answer1" class="col-xs-5" style="text-align: center">
                 第一码------你的答案：<mark id="code1"></mark>------用时：<mark id="time1"></mark>毫秒------原图：<img id="img1" style="width: 150px;height: 90px">
             </div>
-            <div id="answer2" class="col-xs-6" style="text-align: center">
+            <div class="col-xs-2" style="text-align: center">
+                <h1 id="usrname"></h1>
+            </div>
+            <div id="answer2" class="col-xs-5" style="text-align: center">
                 第二码------你的答案：<mark id="code2"></mark>------用时：<mark id="time2"></mark>毫秒------原图：<img id="img2" style="width: 150px;height: 90px">
             </div>
         </div>
@@ -57,6 +61,7 @@
 {% block js %}
     <script>
         var parms = [];
+        parms["getusrname"] = "{% url 'getusrname' %}";
         parms["setCode"] = "{% url 'setCode' %}";
     </script>
     <script src="{% static 'polls/js/fightW.js' %}"></script>

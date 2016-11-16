@@ -78,6 +78,9 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $.get(parms.getusrname, function (ret) {
+        $("#usrname").text(ret);
+    });
     $("#theInput").keydown(function (event) {
         if (event.which == '13') {
             inputString = $("#theInput").val();
