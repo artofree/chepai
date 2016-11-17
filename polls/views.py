@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import get_object_or_404, render
-import os, threading, codecs, time, shutil ,random ,datetime
+import os, sys ,threading, codecs, time, shutil ,random ,datetime
 # Create your views here.
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext, loader
@@ -11,7 +11,14 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from polls.models import Picture
 from django.http import FileResponse
+from django.conf import settings
 
+# logf = open("thelog", 'w+')
+# sys.stdout=logf
+# import logging
+#
+# # Get an instance of a logger
+# logger = logging.getLogger(__name__)
 
 #时间戳，12
 #状态1标志位：
@@ -255,6 +262,9 @@ def uploadPic(request):
             lock.release()
         if times ==1:
             print(datetime.datetime.now())
+        # print(datetime.datetime.now() ,'---',idt ,'---uploadPic' ,'---times:' ,times)
+        # print(datetime.datetime.now() ,'---',idt ,'---uploadPic' ,'---times:' ,times ,file=f)
+        # logger.critical(str(datetime.datetime.now()) +'---' +idt +'---uploadPic' +'---times:' +str(times))
 
 #根据状态码决定是哪个码
 def getCode(request):

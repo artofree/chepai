@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+import os ,sys
 import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# f=open('theLog','w')
+# sys.stdout=f
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -127,6 +129,25 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE =True
 #         'werkzeug': {
 #             'handlers': ['console'],
 #             'level': 'CRITICAL',
+#             'propagate': True,
+#         },
+#     },
+# }
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': 'thelog',
+#         },
+#     },
+#     'loggers': {
+#         'django.request': {
+#             'handlers': ['file'],
+#             'level': 'INFO',
 #             'propagate': True,
 #         },
 #     },
