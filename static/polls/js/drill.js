@@ -42,6 +42,7 @@ function showSecondCode() {
     $("#title").text('第二码 :');
     theImgUrl ="/static/exp/" + drillList[2] + ".png";
     $("#theImg").attr("src",theImgUrl);
+    $("#theInput").val('');
     $("#theInput").removeAttr("disabled");
     $("input").focus();
     var myDate = new Date();

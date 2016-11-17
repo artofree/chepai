@@ -12,13 +12,23 @@ from django.contrib.auth.models import User
 from polls.models import Picture
 from django.http import FileResponse
 from django.conf import settings
+import logging
 
-# logf = open("thelog", 'w+')
+# Get an instance of a logger
+# logger = logging.getLogger()
+# logger.error('hello')
+
+# logf = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "thelog", 'w+'))
 # sys.stdout=logf
 # import logging
 #
 # # Get an instance of a logger
 # logger = logging.getLogger(__name__)
+# with codecs.open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "thelog"), 'r','utf-8') as logf:
+
+logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "log") ,'w')
+
+
 
 #时间戳，12
 #状态1标志位：
@@ -113,6 +123,8 @@ def dologin(request):
     if user:
         # request.session['user_id'] =user.id
         auth.login(request, user)
+        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
+        logFile.flush()
         return HttpResponseRedirect('mainpage')
         # return HttpResponse("hello")
     else:
@@ -240,6 +252,8 @@ def setCode(request):
         whichCode[usr][1] =times
     finally:
         lock.release()
+    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +usr +'---setCode:' +code +'---to' +authDict[usr] +'---times:' +times +'\n')
+    logFile.flush()
 
 ##########################################################################
 
@@ -262,9 +276,8 @@ def uploadPic(request):
             lock.release()
         if times ==1:
             print(datetime.datetime.now())
-        # print(datetime.datetime.now() ,'---',idt ,'---uploadPic' ,'---times:' ,times)
-        # print(datetime.datetime.now() ,'---',idt ,'---uploadPic' ,'---times:' ,times ,file=f)
-        # logger.critical(str(datetime.datetime.now()) +'---' +idt +'---uploadPic' +'---times:' +str(times))
+        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
+        logFile.flush()
 
 #根据状态码决定是哪个码
 def getCode(request):
@@ -272,14 +285,22 @@ def getCode(request):
     theList =idDict[idt]
     theDict =theList[theList[3] -2][1]
     codeDict ={}
+    codesStr ='('
     for k in theDict:
-        if theDict[k][0] !='0':
-            if theDict[k][0] in codeDict:
-                codeDict[theDict[k][0]] +=1
+        theCode =theDict[k][0]
+        codesStr +=theCode
+        codesStr +=','
+        ###写死部分，设定验证码长度为4
+        if theCode !='0' and len(theCode) ==4:
+            if theCode in codeDict:
+                codeDict[theCode] +=1
             else:
-                codeDict[theDict[k][0]] =1
+                codeDict[theCode] =1
+    codesStr +=')'
     if len(codeDict) >0:
         codeDict = sorted(codeDict.items(), key=lambda dic: dic[1])
+        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
+        logFile.flush()
         return HttpResponse(codeDict[-1][0])
     else:
         return HttpResponse('')
@@ -326,6 +347,8 @@ def setVersionContent(request):
         for chunk in verFile.chunks():
             destination.write(chunk)
     curVersion +=1
+    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to' +str(curVersion)+'\n')
+    logFile.flush()
     return HttpResponse('ok!')
 
 

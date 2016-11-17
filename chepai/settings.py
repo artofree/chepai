@@ -134,6 +134,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE =True
 #     },
 # }
 
+# logUrl =os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "thelog")
+#
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -141,7 +143,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE =True
 #         'file': {
 #             'level': 'INFO',
 #             'class': 'logging.FileHandler',
-#             'filename': 'thelog',
+#             'filename': logUrl,
 #         },
 #     },
 #     'loggers': {
