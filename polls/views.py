@@ -123,8 +123,8 @@ def dologin(request):
     if user:
         # request.session['user_id'] =user.id
         auth.login(request, user)
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
-        logFile.flush()
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
+        # logFile.flush()
         return HttpResponseRedirect('mainpage')
         # return HttpResponse("hello")
     else:
@@ -252,8 +252,8 @@ def setCode(request):
         whichCode[usr][1] =times
     finally:
         lock.release()
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +usr +'---setCode:' +code +'---to' +authDict[usr] +'---times:' +times +'\n')
-    logFile.flush()
+    # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +usr +'---setCode:' +code +'---to' +authDict[usr] +'---times:' +times +'\n')
+    # logFile.flush()
 
 ##########################################################################
 
@@ -276,8 +276,8 @@ def uploadPic(request):
             lock.release()
         if times ==1:
             print(datetime.datetime.now())
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
-        logFile.flush()
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
+        # logFile.flush()
 
 #根据状态码决定是哪个码
 def getCode(request):
@@ -299,8 +299,8 @@ def getCode(request):
     codesStr +=')'
     if len(codeDict) >0:
         codeDict = sorted(codeDict.items(), key=lambda dic: dic[1])
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
-        logFile.flush()
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
+        # logFile.flush()
         return HttpResponse(codeDict[-1][0])
     else:
         return HttpResponse('')
@@ -347,8 +347,8 @@ def setVersionContent(request):
         for chunk in verFile.chunks():
             destination.write(chunk)
     curVersion +=1
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to' +str(curVersion)+'\n')
-    logFile.flush()
+    # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to' +str(curVersion)+'\n')
+    # logFile.flush()
     return HttpResponse('ok!')
 
 
