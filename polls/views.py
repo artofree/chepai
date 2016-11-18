@@ -57,6 +57,7 @@ drillList =[]
 idDict ={}#{id:[预览图url,(第一码)[url,{user:[码，时间]}],(第二码)[url,{user:[码，时间]}]],当前打码状态}
 authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={}#{'newguo' :['53689363' ,'7570' ,'362229198511230013']}
+
 codeMonth ='2016_11'
 lock = threading.Lock()
 
