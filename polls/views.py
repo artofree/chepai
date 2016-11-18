@@ -14,20 +14,7 @@ from django.http import FileResponse
 from django.conf import settings
 import logging
 
-# Get an instance of a logger
-# logger = logging.getLogger()
-# logger.error('hello')
-
-# logf = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "thelog", 'w+'))
-# sys.stdout=logf
-# import logging
-#
-# # Get an instance of a logger
-# logger = logging.getLogger(__name__)
-# with codecs.open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "thelog"), 'r','utf-8') as logf:
-
 logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "log") ,'w')
-
 
 
 #时间戳，12
@@ -61,8 +48,8 @@ t= threading.Thread(target=makeTimeStamp)
 t.start()
 
 ###########################################################
-priceStage=[['40-47-500','48-55-700'],
-            ['40-47-500' ,'48-55-800']]
+priceStage=[['39-45-500','48-55-700'],
+            ['39-45-500' ,'48-55-800']]
 curVersion =0
 expPhotoList = []
 drillList =[]
@@ -167,6 +154,7 @@ def stream_generator(usr):
     global timeStamp
     theStatus =0
     sleepTime =3
+    ###预览码出现时间数,小于最早第一出价时间即可
     expCodeEnd =37
     while True:
         theList =idDict[authDict[usr]]
@@ -252,7 +240,7 @@ def setCode(request):
         whichCode[usr][1] =times
     finally:
         lock.release()
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +usr +'---setCode:' +code +'---to' +authDict[usr] +'---times:' +times +'\n')
+    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
     logFile.flush()
 
 ##########################################################################
@@ -347,7 +335,7 @@ def setVersionContent(request):
         for chunk in verFile.chunks():
             destination.write(chunk)
     curVersion +=1
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to' +str(curVersion)+'\n')
+    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion)+'\n')
     logFile.flush()
     return HttpResponse('ok!')
 
