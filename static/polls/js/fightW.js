@@ -5,6 +5,12 @@ var firstRecord = 0;
 var theImgUrl;
 var theTimer;
 
+//$(document).ready(function () {
+//    if ( $.browser.webkit ) {
+//        $("#title").html('chrome');
+//    }
+//});
+
 function initFrame() {
     var theH = $(window).height();
     var dlgMargin = (theH * 4 / 7).toString() + "px";

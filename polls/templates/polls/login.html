@@ -5,11 +5,11 @@
 {% block body %}
     	<div class="wrapper">
 		<!--=== Content Part ===-->
-		<div class="container content">
+		<div  class="container content">
 			<div class="row">
-				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+				<div id="maincontent" class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 					<form class="reg-page" action="{% url 'dologin' %}" method="post">
-{#                         {% csrf_token %}#}
+                         {% csrf_token %}
 						<div class="reg-header">
 							<h2>登录账号</h2>
 						</div>
@@ -39,5 +39,9 @@
 		</div><!--/container-->
 		<!--=== End Content Part ===-->
 	</div><!--/wrapper-->
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'polls/js/login.js' %}"></script>
 {% endblock %}
 

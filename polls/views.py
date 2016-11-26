@@ -6,6 +6,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from django.http import StreamingHttpResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -21,7 +24,8 @@ logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 #状态1标志位：
 status1Flag =1
 timeStamp ,stampDlt=0 ,0
-baseH ,baseM ,baseS=11 ,29 ,23
+# baseH ,baseM ,baseS=11 ,29 ,23
+baseH ,baseM ,baseS=14 ,35 ,23
 baseTime =baseH *3600 +baseM *60
 
 def makeTimeStamp():
@@ -58,7 +62,7 @@ idDict ={}#{id:[预览图url,(第一码)[url,{user:[码，时间]}],(第二码)[
 authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={}#{'newguo' :['53689363' ,'7570' ,'362229198511230013']}
 
-codeMonth ='2016_11'
+codeMonth ='2016_12'
 lock = threading.Lock()
 
 def init():
@@ -100,10 +104,12 @@ def init():
 init()
 
 ##############################################################################
+@ensure_csrf_cookie
 def login(request):
     return render(request, 'polls/login.html')
 
 
+@csrf_protect
 def dologin(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -118,19 +124,23 @@ def dologin(request):
     else:
         return HttpResponse("用户名或密码错误")
 
+@login_required(login_url='login')
 def getusrname(request):
     usr = request.user.username
     return HttpResponse(usr)
 
 
+@login_required(login_url='login')
 def mainpage(request):
-    if request.user.is_authenticated():
-        return render(request, 'polls/mainpage.html')
-    else:
-        return render(request, 'polls/login.html')
+    return render(request, 'polls/mainpage.html')
+    # if request.user.is_authenticated():
+    #     return render(request, 'polls/mainpage.html')
+    # else:
+    #     return render(request, 'polls/login.html')
 
 
 ###train
+@login_required(login_url='login')
 def train(request):
     return render(request, 'polls/trainW.html')
 
@@ -139,14 +149,17 @@ def getTrainPhoto(request):
     return HttpResponse(ret)
 
 #drill
+@login_required(login_url='login')
 def drill(request):
     return render(request, 'polls/drill.html')
 
+@login_required(login_url='login')
 def getDrillInfo(request):
     ret =drillList[random.randint(0 ,8)]
     return HttpResponse(ret)
 
 ###fight
+@login_required(login_url='login')
 def fight(request):
     return render(request, 'polls/fightW.html')
 
@@ -155,7 +168,7 @@ def stream_generator(usr):
     global timeStamp
     theStatus =0
     sleepTime =3
-    ###预览码出现时间数,小于最早第一出价时间即可
+    ###预览码结束时间数,小于最早第一出价时间即可
     expCodeEnd =37
     while True:
         theList =idDict[authDict[usr]]
@@ -191,6 +204,7 @@ def stream_generator(usr):
             yield u'data: %s\n\n' % ret
         time.sleep(sleepTime)
 
+@login_required(login_url='login')
 def getStatus(request):
     usr = request.user.username
     if usr in authDict:
@@ -228,6 +242,7 @@ def getStatus(request):
 
 
 #根据状态码决定是哪个码
+@login_required(login_url='login')
 def setCode(request):
     print(datetime.datetime.now())
     usr = request.user.username
