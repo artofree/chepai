@@ -4,6 +4,16 @@ var theTime = 0;
 var firstRecord = 0;
 var theImgUrl;
 var theTimer;
+var userName;
+
+function GetRandomNum(Min,Max)
+{
+var Range = Max - Min;
+var Rand = Math.random();
+return(Min + Math.round(Rand * Range));
+}
+
+var testCode =['2345' ,'1234' ,'3465'];
 
 //$(document).ready(function () {
 //    if ( $.browser.webkit ) {
@@ -86,17 +96,20 @@ $(document).ready(function () {
 $(document).ready(function () {
     $.get(parms.getusrname, function (ret) {
         $("#usrname").text(ret);
+        userName =ret;
     });
     $("#theInput").keydown(function (event) {
         if (event.which == '13') {
             inputString = $("#theInput").val();
-            if (inputString != '') {
+            if (inputString != '')
+            {
                 ///setCode
                 var myDate = new Date();
                 during = (myDate.getTime() - theTime).toString();
                 $.post(parms.setCode,
                     {
                         code: inputString,
+                        //code: testCode[GetRandomNum(0 ,2)],
                         times: during
                     },
                     function (data, status) {

@@ -15,7 +15,6 @@ from django.contrib.auth.models import User
 from polls.models import Picture
 from django.http import FileResponse
 from django.conf import settings
-import logging
 
 logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "log") ,'w')
 
@@ -24,12 +23,11 @@ logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 #状态1标志位：
 status1Flag =1
 timeStamp ,stampDlt=0 ,0
-# baseH ,baseM ,baseS=11 ,29 ,23
-baseH ,baseM ,baseS=14 ,35 ,23
+baseH ,baseM ,baseS1 ,baseS2=11 ,29 ,12 ,23
 baseTime =baseH *3600 +baseM *60
 
 def makeTimeStamp():
-    global timeStamp ,stampDlt ,status1Flag
+    global timeStamp ,stampDlt ,status1Flag ,idDict
     while 1:
         now =datetime.datetime.now()
         theH =int(now.strftime('%H'))
@@ -43,7 +41,7 @@ def makeTimeStamp():
                 for key in idDict:
                     idDict[key][3] =1
                 status1Flag =0
-        if timeStamp >59:
+        if timeStamp >58:
             #写入数据库
             pass
         time.sleep(0.1)
@@ -52,13 +50,16 @@ t= threading.Thread(target=makeTimeStamp)
 t.start()
 
 ###########################################################
-priceStage=[['39-45-500','48-55-700'],
+priceStage=[['39-45.9-500','48-55.1-700'],
+            ['39-45-500' ,'47-55-800'],
+            ['39-45-500' ,'47-55-800'],
+            ['39-45-500' ,'47-55-800'],
             ['39-45-500' ,'47-55-800']]
 curVersion =0
 expPhotoList = []
 drillList =[]
 #当前打码状态：0，未开始 1，开始倒计时 2，预览码 3第一码 4第二码
-idDict ={}#{id:[预览图url,(第一码)[url,{user:[码，时间]}],(第二码)[url,{user:[码，时间]}]],当前打码状态}
+idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码)[url,{user:[码，时间]}]],当前打码状态}
 authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={}#{'newguo' :['53689363' ,'7570' ,'362229198511230013']}
 
@@ -66,6 +67,7 @@ codeMonth ='2016_12'
 lock = threading.Lock()
 
 def init():
+    print('--------------------------------------------init----------------------------------')
     ###初始化测试列表
     with codecs.open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static/exp/answer"), 'r','utf-8') as f:
         theList = f.readlines()
@@ -96,8 +98,8 @@ def init():
             for user in authList:
                 authDict[user] =subList[0]
             #idDict
-                idDict[subList[0]][1][1][user] =['0' ,0]
-                idDict[subList[0]][2][1][user] =['0' ,0]
+                idDict[subList[0]][1][1][user] =['0' ,'0']
+                idDict[subList[0]][2][1][user] =['0' ,'0']
 
     i =0
 
@@ -129,6 +131,14 @@ def getusrname(request):
     usr = request.user.username
     return HttpResponse(usr)
 
+@login_required(login_url='login')
+def getrsptime(request):
+    usr = request.user.username
+    times = request.GET['times']
+    logFile.write(usr +'---' +'rsptime : ' + times +'ms\n')
+    logFile.flush()
+    return HttpResponse('ok')
+
 
 @login_required(login_url='login')
 def mainpage(request):
@@ -144,6 +154,7 @@ def mainpage(request):
 def train(request):
     return render(request, 'polls/trainW.html')
 
+@login_required(login_url='login')
 def getTrainPhoto(request):
     ret =expPhotoList[random.randint(0 ,69)]
     return HttpResponse(ret)
@@ -215,48 +226,24 @@ def getStatus(request):
         return HttpResponse('wrong!')
 
 
-# def getCodeImg(request):
-#     global timeStamp
-#     usr = request.user.username
-#     theList =idDict[authDict[usr]]
-#     ret =''
-#     if theList[3] ==0:
-#         ret ='0'
-#     #1:倒计时数
-#     if theList[3] ==1:
-#         if timeStamp >0:
-#             if theList[4] -int(timeStamp) >0:
-#                 ret ='1-' +str(theList[4] -int(timeStamp))
-#     #1:倒计时数,2:文件路径
-#     if theList[3] ==2:
-#         if timeStamp >0:
-#             if theList[4] -int(timeStamp) >0:
-#                 ret ='2-' +str(theList[4] -int(timeStamp)) +'-' +theList[0][0]
-#     #1:文件路径
-#     if theList[3] ==3:
-#         ret ='3--' +theList[1][0]
-#     if theList[3] ==4:
-#         ret ='4--' +theList[2][0]
-#
-#     return HttpResponse(ret)
-
-
 #根据状态码决定是哪个码
 @login_required(login_url='login')
 def setCode(request):
     print(datetime.datetime.now())
     usr = request.user.username
-    theList =idDict[authDict[usr]]
-    whichCode =theList[theList[3] -2][1]
-    code = request.POST['code']
-    times = request.POST['times']
+    if usr not in authDict:
+        return HttpResponse('wrong!')
     lock.acquire()
     try:
+        theList =idDict[authDict[usr]]
+        whichCode =theList[theList[3] -2][1]
+        code = request.POST['code']
+        times = request.POST['times']
         whichCode[usr][0] =code
         whichCode[usr][1] =times
     finally:
         lock.release()
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
+    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
     logFile.flush()
 
 ##########################################################################
@@ -278,13 +265,11 @@ def uploadPic(request):
             idDict[idt][3] =times +2
         finally:
             lock.release()
-        if times ==1:
-            print(datetime.datetime.now())
         logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
         logFile.flush()
 
-#根据状态码决定是哪个码
-def getCode(request):
+#根据本端状态码决定是哪个码
+def getTrueCode(request):
     idt = request.GET['idt']
     theList =idDict[idt]
     theDict =theList[theList[3] -2][1]
@@ -311,24 +296,29 @@ def getCode(request):
 
 def setTimeStamp(request):
     global stampDlt
+    times = request.GET['times']
     now =datetime.datetime.now()
-    stampDlt =int(now.strftime('%H')) *3600 +int(now.strftime('%M')) *60 +int(now.strftime('%S')) +int(now.strftime('%f')[:2]) /100 -baseTime -baseS
-    stampDlt =round(stampDlt ,2)
+    if times =='1':
+        stampDlt =int(now.strftime('%H')) *3600 +int(now.strftime('%M')) *60 +int(now.strftime('%S')) +int(now.strftime('%f')[:2]) /100 -baseTime -baseS1
+        stampDlt =round(stampDlt ,2)
+    if times =='2':
+        stampDlt =int(now.strftime('%H')) *3600 +int(now.strftime('%M')) *60 +int(now.strftime('%S')) +int(now.strftime('%f')[:2]) /100 -baseTime -baseS2
+        stampDlt =round(stampDlt ,2)
     print(stampDlt)
 
-def time_generator():
-    global timeStamp
-    theStamp =0
-    while True:
-        if timeStamp !=theStamp:
-            theStamp =timeStamp
-            yield u'data: %s\n\n' % str(timeStamp)
-        time.sleep(0.1)
-
-def getTimeStamp(request):
-    response = StreamingHttpResponse(time_generator(), content_type="text/event-stream")
-    response['Cache-Control'] = 'no-cache'
-    return response
+# def time_generator():
+#     global timeStamp
+#     theStamp =0
+#     while True:
+#         if timeStamp !=theStamp:
+#             theStamp =timeStamp
+#             yield u'data: %s\n\n' % str(timeStamp)
+#         time.sleep(0.1)
+#
+# def getTimeStamp(request):
+#     response = StreamingHttpResponse(time_generator(), content_type="text/event-stream")
+#     response['Cache-Control'] = 'no-cache'
+#     return response
 
 def getVersion(request):
     global curVersion

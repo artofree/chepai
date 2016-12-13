@@ -36,3 +36,11 @@
 	</div><!--/wrapper-->
 {% endblock %}
 
+{% block js %}
+    <script>
+        var parms = [];
+        parms["getusrname"] = "{% url 'getusrname' %}";
+        parms["getrsptime"] = "{% url 'getrsptime' %}";
+    </script>
+    <script src="{% static 'polls/js/mainpage.js' %}"></script>
+{% endblock %}
