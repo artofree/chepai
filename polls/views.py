@@ -41,7 +41,7 @@ def makeTimeStamp():
                 for key in idDict:
                     idDict[key][3] =1
                 status1Flag =0
-        if timeStamp >58:
+        if timeStamp >59:
             #写入数据库
             pass
         time.sleep(0.1)
@@ -133,6 +133,8 @@ def dologin(request):
 @login_required(login_url='login')
 def getusrname(request):
     usr = request.user.username
+    if timeStamp >59:
+        usr ='刷新过，已失效'
     return HttpResponse(usr)
 
 @login_required(login_url='login')
@@ -188,6 +190,9 @@ def stream_generator(usr):
     while True:
         theList =idDict[authDict[usr]]
         ret =''
+        # if timeStamp >59:
+        #     if theStatus ==5:
+        #         continue
         #1:倒计时数
         if theList[3] ==1:
             if theStatus !=1:
@@ -215,6 +220,12 @@ def stream_generator(usr):
             if theStatus !=4:
                 theStatus =4
                 ret ='4-' +theList[2][0]
+        if timeStamp >59:
+            if theStatus ==4:
+                theStatus =5
+                sleepTime =100000
+                print('end')
+                ret ='5'
         if ret !='':
             yield u'data: %s\n\n' % ret
         time.sleep(sleepTime)

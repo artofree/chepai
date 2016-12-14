@@ -6,14 +6,13 @@ var theImgUrl;
 var theTimer;
 var userName;
 
-function GetRandomNum(Min,Max)
-{
-var Range = Max - Min;
-var Rand = Math.random();
-return(Min + Math.round(Rand * Range));
+function GetRandomNum(Min, Max) {
+    var Range = Max - Min;
+    var Rand = Math.random();
+    return (Min + Math.round(Rand * Range));
 }
 
-var testCode =['2345' ,'1234' ,'3465'];
+var testCode = ['2345', '1234', '3465'];
 
 //$(document).ready(function () {
 //    if ( $.browser.webkit ) {
@@ -32,7 +31,7 @@ function changeButton() {
     $("#train-timer").text(train_timer.toString());
 }
 
-function record(times ,during ,thecode) {
+function record(times, during, thecode) {
     ///向下记录
     if (times == 1) {
         $("#code1").text(thecode);
@@ -76,7 +75,7 @@ $(document).ready(function () {
                 $("#title").text('第二码 :');
                 if (!firstRecord) {
                     record(1);
-                    firstRecord =1;
+                    firstRecord = 1;
                 }
             }
             theImgUrl = theList[1];
@@ -90,19 +89,21 @@ $(document).ready(function () {
             $("#train-timer").text(train_timer.toString());
             theTimer = setInterval('changeButton()', 1000);
         }
+        if (theList[0] == '5') {
+            $("#title").text('任务已结束，切勿刷新！请截图保存并私信发至群主');
+        }
     };
 });
 
 $(document).ready(function () {
     $.get(parms.getusrname, function (ret) {
         $("#usrname").text(ret);
-        userName =ret;
+        userName = ret;
     });
     $("#theInput").keydown(function (event) {
         if (event.which == '13') {
             inputString = $("#theInput").val();
-            if (inputString != '')
-            {
+            if (inputString != '') {
                 ///setCode
                 var myDate = new Date();
                 during = (myDate.getTime() - theTime).toString();
@@ -123,12 +124,12 @@ $(document).ready(function () {
                 $("#theInput").val('');
                 $("#theInput").attr("disabled", 'disabled');
                 ///记录
-                if(!firstRecord){
-                    record(1 ,during ,inputString);
-                    firstRecord =1;
+                if (!firstRecord) {
+                    record(1, during, inputString);
+                    firstRecord = 1;
                 }
-                else{
-                    record(2 ,during ,inputString);
+                else {
+                    record(2, during, inputString);
                 }
             }
         }
