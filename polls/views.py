@@ -163,6 +163,13 @@ def getTrainPhoto(request):
     ret =expPhotoList[random.randint(0 ,69)]
     return HttpResponse(ret)
 
+@login_required(login_url='login')
+def finjob(request):
+    usr = request.user.username
+    total = request.POST['total']
+    logFile.write(str(datetime.datetime.now()) +'---' +usr +'---finjob' +'---' +'total:' +total+'\n')
+    logFile.flush()
+
 #drill
 @login_required(login_url='login')
 def drill(request):

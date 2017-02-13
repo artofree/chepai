@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-
+{% block head %}
+    <script src="{% static 'polls/js/detect.js' %}"></script>
+{% endblock %}
 {% block body %}
     	<div class="wrapper">
 		<!--=== Content Part ===-->

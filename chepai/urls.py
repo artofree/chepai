@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^getVersionContent$', 'polls.views.getVersionContent', name='getVersionContent'),
     url(r'^setVersionContent$', 'polls.views.setVersionContent', name='setVersionContent'),
     url(r'^getOrderInfo$', 'polls.views.getOrderInfo', name='getOrderInfo'),
+    url(r'^finjob$', 'polls.views.finjob', name='finjob'),
     url(r'^gettest$', 'polls.views.gettest', name='gettest'),
     url(r'^gettesttime$', 'polls.views.gettesttime', name='gettesttime'),
 ]
