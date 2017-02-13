@@ -66,7 +66,8 @@ $(document).ready(function () {
             else {
                 theContent = "<h1>答案错误！</h1><br><strong>正确答案为 ：" + theCode + "</strong><br>";
             }
-            theContent += "<h1>任务已达成 : <strong>" + totalCorect.toString() + "</strong></h1>";
+            theContent += "<h1>总码数 : <strong>" + totalTimes.toString() + "</strong></h1>";
+            theContent += "<h1>有效码 : <strong>" + totalCorect.toString() + "</strong></h1>";
             $("#modalContent").html(theContent);
             $('#myModal').modal();
             $("#close_button").focus();

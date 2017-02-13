@@ -72,20 +72,20 @@
 {% block body %}{% endblock %}
 <!-- JS Global Compulsory -->
 <script type="text/javascript" src="{% static 'polls/assets/plugins/jquery/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'polls/assets/plugins/jquery/jquery-migrate.min.js' %}"></script>
+{#<script type="text/javascript" src="{% static 'polls/assets/plugins/jquery/jquery-migrate.min.js' %}"></script>#}
 <script type="text/javascript" src="{% static 'polls/assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 <!-- JS Implementing Plugins -->
 {#	<script type="text/javascript" src="{% static 'polls/assets/plugins/smoothScroll.js' %}"></script>#}
 <!-- JS Customization -->
 {#	<script type="text/javascript" src="{% static 'polls/assets/js/custom.js' %}"></script>#}
 <!-- JS Page Level -->
-<script type="text/javascript" src="{% static 'polls/assets/js/app.js' %}"></script>
+{#<script type="text/javascript" src="{% static 'polls/assets/js/app.js' %}"></script>#}
 <script type="text/javascript" src="{% static 'polls/assets/js/eventsource.js' %}"></script>
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        App.init();
-    });
-</script>
+{#<script type="text/javascript">#}
+{#    jQuery(document).ready(function () {#}
+{#        App.init();#}
+{#    });#}
+{#</script>#}
 {% block js %}{% endblock %}
 </body>
 </html>
