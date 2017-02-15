@@ -277,16 +277,17 @@ def uploadPic(request):
         purl =idDict[idt][times][0]
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         BASE_DIR =os.path.join(BASE_DIR ,purl)
-        with open(BASE_DIR, 'wb+') as destination:
-            for chunk in pic.chunks():
-                destination.write(chunk)
         lock.acquire()
         try:
+            with open(BASE_DIR, 'wb+') as destination:
+                for chunk in pic.chunks():
+                    destination.write(chunk)
             idDict[idt][3] =times +2
+            logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
+            logFile.flush()
         finally:
             lock.release()
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
-        logFile.flush()
+
 
 #根据本端状态码决定是哪个码
 def getTrueCode(request):
