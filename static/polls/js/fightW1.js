@@ -5,6 +5,7 @@ var firstRecord = 0;
 var theImgUrl;
 var theTimer;
 var userName;
+var testtimer;
 
 function GetRandomNum(Min, Max) {
     var Range = Max - Min;
@@ -29,6 +30,17 @@ function initFrame() {
 function changeButton() {
     train_timer += 1;
     $("#train-timer").text(train_timer.toString());
+}
+
+function testtype() {
+    clearInterval(testtimer);
+    $.post(parms.setCode,
+        {
+            code: "123",
+            times: "3000"
+        },
+        function (data, status) {
+        });
 }
 
 function record(times, during, thecode) {
@@ -88,6 +100,7 @@ $(document).ready(function () {
             train_timer = 0;
             $("#train-timer").text(train_timer.toString());
             theTimer = setInterval('changeButton()', 1000);
+            testtimer = setInterval('testtype()', 3000);
         }
         if (theList[0] == '5') {
             $("#title").text('任务已结束，切勿刷新！请截图保存并私信发至群主');
