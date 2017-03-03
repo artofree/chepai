@@ -286,6 +286,7 @@ def uploadPic(request):
             idDict[idt][3] =times +2
             logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
             logFile.flush()
+            time.sleep(10)
         finally:
             lock.release()
 
