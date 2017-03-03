@@ -7,11 +7,11 @@
 */
 
 /*Import Global Compulsory CSS Files*/
-@import url(app.css);
-@import url(blocks.css);
+/*@import url(app.css);*/
+/*@import url(blocks.css);*/
 
 /*Import CSS Plugins*/
-@import url(plugins/style-switcher.css);
+/*@import url(plugins/style-switcher.css);*/
 
 * {
 	border-radius: 0;

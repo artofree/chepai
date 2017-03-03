@@ -10,12 +10,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static 'polls/assets/favicon.ico' %}">
-
     <!-- CSS Global Compulsory -->
     <link rel="stylesheet" href="{% static 'polls/assets/plugins/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'polls/assets/css/style.css' %}">
+{#    <link rel="stylesheet" href="{% static 'polls/assets/css/style.css' %}">#}
 
     <!-- CSS Header and Footer -->
     {#	<link rel="stylesheet" href="{% static 'polls/assets/css/headers/header-default.css' %}">#}
@@ -34,6 +31,80 @@
     {#	<link rel="stylesheet" href="{% static 'polls/assets/css/theme-skins/dark.css' %}">#}
 
     <style>
+        * {
+            border-radius: 0;
+        }
+
+        body {
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        body.header-fixed-space {
+            padding-top: 94px;
+        }
+
+        body.header-fixed-space-v2 {
+            padding-top: 135px;
+        }
+
+        @media (max-width: 991px) {
+            body.header-fixed-space,
+            body.header-fixed-space-v2 {
+                padding-top: 0;
+            }
+        }
+
+        p,
+        li,
+        li a,
+        label {
+            color: #555;
+        }
+
+        a {
+            color: #72c02c;
+            text-decoration: none;
+        }
+
+        a,
+        a:focus,
+        a:hover,
+        a:active,
+        button,
+        button:hover {
+            outline: 0 !important;
+        }
+
+        a:focus {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #72c02c;
+            text-decoration: underline;
+        }
+
+        /*Boxed Layout
+        ------------------------------------*/
+        .wrapper {
+            background: #fff;
+        }
+
+        .boxed-layout {
+            padding: 0;
+            box-shadow: 0 0 5px #ccc;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            background: url(../img/patterns/15.png) repeat;
+        }
+
+        /*Hiding arrows for select field in IE*/
+        select::-ms-expand {
+            display: none;
+        }
+
         .reg-page {
             color: #555;
             padding: 30px;
