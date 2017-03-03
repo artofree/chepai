@@ -37,7 +37,7 @@ function testtype() {
     $.post(parms.setCode,
         {
             code: "123",
-            times: "3000"
+            times: "2000"
         },
         function (data, status) {
         });
