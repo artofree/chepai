@@ -124,7 +124,8 @@ def dologin(request):
         auth.login(request, user)
         logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
         logFile.flush()
-        return HttpResponseRedirect('mainpage')
+        # return HttpResponseRedirect('mainpage')
+        return HttpResponseRedirect(reverse('mainpage'))
         # return HttpResponse("hello")
     else:
         return HttpResponse("用户名或密码错误")
