@@ -241,8 +241,9 @@ def stream_generator(usr):
 def getStatus(request):
     usr = request.user.username
     if usr in authDict:
-        response = StreamingHttpResponse(stream_generator(usr), content_type="text/event-stream")
-        response['Cache-Control'] = 'no-cache'
+        # response = StreamingHttpResponse(stream_generator(usr), content_type="text/event-stream")
+        # response['Cache-Control'] = 'no-cache'
+        response = StreamingHttpResponse(stream_generator(usr) ,)
         return response
     else:
         return HttpResponse('wrong!')
