@@ -241,8 +241,9 @@ def stream_generator(usr):
 def getStatus(request):
     usr = request.user.username
     if usr in authDict:
-        response = StreamingHttpResponse(stream_generator(usr))
-        response['Content-Type'] = 'application/octet-stream'
+        response = StreamingHttpResponse(stream_generator(usr) ,content_type="text/csv;charset=utf-8")
+        response['Content-Disposition'] = 'attachment'
+        #response['Content-Type'] = 'application/octet-stream'
         #response = StreamingHttpResponse(stream_generator(usr), content_type="text/event-stream")
         # response['Cache-Control'] = 'no-cache'
         #response['Content-Disposition'] = 'attachment'
