@@ -246,6 +246,7 @@ def getStatus(request):
         # response['Cache-Control'] = 'no-cache'
         #response['Content-Disposition'] = 'attachment'
         # response = StreamingHttpResponse(stream_generator(usr) ,)
+        
         return response
     else:
         return HttpResponse('wrong!')
