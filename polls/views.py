@@ -124,8 +124,7 @@ def dologin(request):
         auth.login(request, user)
         logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
         logFile.flush()
-        # return HttpResponseRedirect('mainpage')
-        return HttpResponseRedirect(reverse('mainpage'))
+        return HttpResponseRedirect('mainpage')
         # return HttpResponse("hello")
     else:
         return HttpResponse("用户名或密码错误")
@@ -241,15 +240,8 @@ def stream_generator(usr):
 def getStatus(request):
     usr = request.user.username
     if usr in authDict:
-        # response = StreamingHttpResponse(stream_generator(usr) ,content_type="text/csv;charset=utf-8")
-        # response['Content-Disposition'] = 'attachment'
-        #response['Content-Type'] = 'application/octet-stream'
         response = StreamingHttpResponse(stream_generator(usr), content_type="text/event-stream")
         response['Cache-Control'] = 'no-cache'
-        response["Connection"] = "keep-alive"
-        #response['Content-Disposition'] = 'attachment'
-        # response = StreamingHttpResponse(stream_generator(usr) ,)
-
         return response
     else:
         return HttpResponse('wrong!')
