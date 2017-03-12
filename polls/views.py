@@ -109,12 +109,12 @@ def init():
 init()
 
 ##############################################################################
-@ensure_csrf_cookie
+#@ensure_csrf_cookie
 def login(request):
     return render(request, 'polls/login.html')
 
 
-@csrf_protect
+#@csrf_protect
 def dologin(request):
     username = request.POST['username']
     password = request.POST['password']
