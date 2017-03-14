@@ -50,14 +50,20 @@ t= threading.Thread(target=makeTimeStamp)
 t.start()
 
 ###########################################################
-priceStage=[['39-45-500' ,'48-56-700'],     #0
-            ['39-45-500' ,'48-56.1-700'],   #1
-            ['39-45-500' ,'48-56.2-700'],   #2
-            ['39-45-500' ,'48-56.3-700'],   #3
-            ['39-45-500' ,'48-56.2-800'],   #4
-            ['39-45-500' ,'48-56.3-800'],   #5
-            ['39-45-500' ,'48-55.5-400'],   #6
-            ['39-45-500' ,'48-56-600']]     #7
+priceStage=['37-43.0-500',                    #0
+            '46-54.0-800',                    #1
+            '46-54.0-900',                    #2
+            '46-54.5-800',                    #3
+            '46-54.5-900',                    #4
+            '46-55.0-800',                    #5
+            '46-55.0-900',                    #6
+            '46-55.5-800',                    #7
+            '46-55.5-900',                    #8
+            '46-56.0-800',                    #9
+            '46-56.0-900',                    #10
+            '46-56.0-1000',                   #11
+            '48-56-600']                      #
+
 curVersion =0
 expPhotoList = []
 drillList =[]
@@ -66,7 +72,7 @@ idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码
 authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
-codeMonth ='2017_02'
+codeMonth ='2017_03'
 lock = threading.Lock()
 
 def init():
@@ -89,13 +95,16 @@ def init():
         theList = f.readlines()
         for line in theList:
             subList =line.strip().split(',')
-            hostDict[subList[4]] =[subList[0] ,subList[1] ,subList[2] ,priceStage[int(subList[5])][0] ,priceStage[int(subList[5])][1]]
+            if len(subList) >6:
+                hostDict[subList[4]] =[subList[0] ,subList[1] ,subList[2] ,priceStage[0] ,priceStage[int(subList[5])] ,priceStage[int(subList[6])]]
+            else:
+                hostDict[subList[4]] =[subList[0] ,subList[1] ,subList[2] ,priceStage[0] ,priceStage[int(subList[5])]]
             purl ='static/codePic'
             purl =os.path.join(purl ,codeMonth)
             url0 =os.path.join(purl ,subList[0] + '_' +'0.png')
             url1 =os.path.join(purl ,subList[0] + '_' +'1.png')
             url2 =os.path.join(purl ,subList[0] + '_' +'2.png')
-            idDict[subList[0]] =[[url0] ,[url1 ,{}], [url2 ,{}] ,0 ,int(priceStage[int(subList[5])][0].split('-')[0])]
+            idDict[subList[0]] =[[url0] ,[url1 ,{}], [url2 ,{}] ,0 ,37]
             #authDict
             authList =subList[3].split('-')
             for user in authList:
@@ -192,7 +201,7 @@ def stream_generator(usr):
     theStatus =0
     sleepTime =3
     ###预览码结束时间数,小于最早第一出价时间即可
-    expCodeEnd =37
+    expCodeEnd =35
     while True:
         theList =idDict[authDict[usr]]
         ret =''
