@@ -95,10 +95,7 @@ def init():
         theList = f.readlines()
         for line in theList:
             subList =line.strip().split(',')
-            if len(subList) >6:
-                hostDict[subList[4]] =[subList[0] ,subList[1] ,subList[2] ,priceStage[0] ,priceStage[int(subList[5])] ,priceStage[int(subList[6])]]
-            else:
-                hostDict[subList[4]] =[subList[0] ,subList[1] ,subList[2] ,priceStage[0] ,priceStage[int(subList[5])]]
+            hostDict[subList[4]] =[subList[0] ,subList[1] ,subList[2] ,priceStage[0] ,priceStage[int(subList[5])] ,subList[6]]
             purl ='static/codePic'
             purl =os.path.join(purl ,codeMonth)
             url0 =os.path.join(purl ,subList[0] + '_' +'0.png')
