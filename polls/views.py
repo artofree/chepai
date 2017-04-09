@@ -25,6 +25,8 @@ status1Flag =1
 timeStamp ,stampDlt=0 ,0
 baseH ,baseM ,baseS1 ,baseS2=11 ,29 ,12 ,23
 baseTime =baseH *3600 +baseM *60
+###预览码结束时间数,小于最早第一出价时间即可
+expCodeEnd =32
 
 def makeTimeStamp():
     global timeStamp ,stampDlt ,status1Flag ,idDict
@@ -100,7 +102,7 @@ def init():
             url0 =os.path.join(purl ,subList[0] + '_' +'0.png')
             url1 =os.path.join(purl ,subList[0] + '_' +'1.png')
             url2 =os.path.join(purl ,subList[0] + '_' +'2.png')
-            idDict[subList[0]] =[[url0] ,[url1 ,{}], [url2 ,{}] ,0 ,37]
+            idDict[subList[0]] =[[url0] ,[url1 ,{}], [url2 ,{}] ,0 ,expCodeEnd]
             #authDict
             authList =subList[3].split('-')
             for user in authList:
@@ -196,8 +198,6 @@ def stream_generator(usr):
     global timeStamp
     theStatus =0
     sleepTime =3
-    ###预览码结束时间数,小于最早第一出价时间即可
-    expCodeEnd =32
     while True:
         theList =idDict[authDict[usr]]
         ret =''
