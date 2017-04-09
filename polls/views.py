@@ -50,17 +50,18 @@ t= threading.Thread(target=makeTimeStamp)
 t.start()
 
 ###########################################################
-priceStage=['37-43.0-500',                    #0
-            '46-54.0-800',                    #1
-            '46-54.5-800',                    #2
-            '46-54.5-900',                    #3
-            '46-55.0-800',                    #4
-            '46-55.0-1000',                   #5
-            '46-55.5-800',                    #6
-            '46-55.5-1000',                   #7
-            '46-56.0-900',                    #8
-            '46-56.0-1000',                   #9
-            '46-54.5-400']                    #10
+###此处的开始时间已经不再重要，只是判断对应的第一还是第二次出价
+priceStage=['33-39.0-500',                    #0
+            '42-54.0-800',                    #1
+            '42-54.5-800',                    #2
+            '42-54.5-900',                    #3
+            '42-55.0-800',                    #4
+            '42-55.0-1000',                   #5
+            '42-55.5-800',                    #6
+            '42-55.5-1000',                   #7
+            '42-56.0-900',                    #8
+            '42-56.0-1000',                   #9
+            '42-54.5-400']                    #10
 
 curVersion =0
 expPhotoList = []
@@ -182,7 +183,7 @@ def drill(request):
 
 @login_required(login_url='login')
 def getDrillInfo(request):
-    ret =drillList[random.randint(0 ,8)]
+    ret =drillList[random.randint(0 ,10)]
     return HttpResponse(ret)
 
 ###fight
@@ -196,7 +197,7 @@ def stream_generator(usr):
     theStatus =0
     sleepTime =3
     ###预览码结束时间数,小于最早第一出价时间即可
-    expCodeEnd =35
+    expCodeEnd =32
     while True:
         theList =idDict[authDict[usr]]
         ret =''
