@@ -26,7 +26,7 @@ timeStamp ,stampDlt=0 ,0
 baseH ,baseM ,baseS1 ,baseS2=11 ,29 ,12 ,23
 baseTime =baseH *3600 +baseM *60
 ###预览码结束时间数,小于最早第一出价时间即可
-expCodeEnd =32
+expCodeEnd =30
 
 def makeTimeStamp():
     global timeStamp ,stampDlt ,status1Flag ,idDict
