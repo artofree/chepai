@@ -25,8 +25,11 @@ status1Flag =1
 timeStamp ,stampDlt=0 ,0
 baseH ,baseM ,baseS1 ,baseS2=11 ,29 ,12 ,23
 baseTime =baseH *3600 +baseM *60
+
+###第一出价时间，即为pricestage里的#0 begin时间
+expCodeEnd =33
 ###预览码结束时间数,小于最早第一出价时间即可
-expCodeEnd =30
+expEndTime =31
 
 def makeTimeStamp():
     global timeStamp ,stampDlt ,status1Flag ,idDict
@@ -219,7 +222,7 @@ def stream_generator(usr):
             if timeStamp >0:
                 if theList[4] -int(timeStamp) >0:
                     ret ='2-' +str(theList[4] -int(timeStamp)) +'-' +theList[0][0]
-                    if timeStamp >expCodeEnd:
+                    if timeStamp >expEndTime:
                         ret ='2-' +str(theList[4] -int(timeStamp))
                         sleepTime =0.1
         #1:文件路径
