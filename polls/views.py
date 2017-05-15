@@ -86,7 +86,7 @@ idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码
 authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
-codeMonth ='2017_04'
+codeMonth ='2017_05'
 lock = threading.Lock()
 
 def init():
