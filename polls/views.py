@@ -16,7 +16,7 @@ from polls.models import Picture
 from django.http import FileResponse
 from django.conf import settings
 
-logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "log") ,'w')
+# logFile =open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "log") ,'w')
 
 
 #时间戳，12
@@ -77,7 +77,7 @@ idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码
 authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
-codeMonth ='2017_05'
+codeMonth ='2017_06'
 lock = threading.Lock()
 
 def init():
@@ -133,8 +133,9 @@ def dologin(request):
     if user:
         # request.session['user_id'] =user.id
         auth.login(request, user)
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
-        logFile.flush()
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login')
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
+        # logFile.flush()
         return HttpResponseRedirect('mainpage')
         # return HttpResponse("hello")
     else:
@@ -151,8 +152,9 @@ def getusrname(request):
 def getrsptime(request):
     usr = request.user.username
     times = request.GET['times']
-    logFile.write(usr +'---' +'rsptime : ' + times +'ms\n')
-    logFile.flush()
+    print(usr +'---' +'rsptime : ' + times +'ms')
+    # logFile.write(usr +'---' +'rsptime : ' + times +'ms\n')
+    # logFile.flush()
     return HttpResponse('ok')
 
 
@@ -179,8 +181,9 @@ def getTrainPhoto(request):
 def finjob(request):
     usr = request.user.username
     total = request.POST['total']
-    logFile.write(str(datetime.datetime.now()) +'---' +usr +'---finjob' +'---' +'total:' +total+'\n')
-    logFile.flush()
+    print(str(datetime.datetime.now()) +'---' +usr +'---finjob' +'---' +'total:' +total)
+    # logFile.write(str(datetime.datetime.now()) +'---' +usr +'---finjob' +'---' +'total:' +total+'\n')
+    # logFile.flush()
 
 #drill
 @login_required(login_url='login')
@@ -273,8 +276,9 @@ def setCode(request):
         whichCode[usr][1] =times
     finally:
         lock.release()
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
-    logFile.flush()
+    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times)
+    # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
+    # logFile.flush()
 
 ##########################################################################
 
@@ -293,8 +297,9 @@ def uploadPic(request):
                 for chunk in pic.chunks():
                     destination.write(chunk)
             idDict[idt][3] =times +2
-            logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
-            logFile.flush()
+            print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0])
+            # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
+            # logFile.flush()
         finally:
             lock.release()
 
@@ -320,11 +325,13 @@ def getTrueCode(request):
     codesStr +=')'
     if len(codeDict) >0:
         codeDict = sorted(codeDict.items(), key=lambda dic: dic[1])
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
-        logFile.flush()
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0])
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
+        # logFile.flush()
         return HttpResponse(codeDict[-1][0])
     else:
-        logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---getnothing'+'\n')
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---getnothing')
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---getnothing'+'\n')
         return HttpResponse('')
 
 def setTimeStamp(request):
@@ -374,8 +381,9 @@ def setVersionContent(request):
         for chunk in verFile.chunks():
             destination.write(chunk)
     curVersion +=1
-    logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion)+'\n')
-    logFile.flush()
+    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion))
+    # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion)+'\n')
+    # logFile.flush()
     return HttpResponse('ok!')
 
 
