@@ -329,8 +329,8 @@ def getTrueCode(request):
     codesStr +=')'
     if len(codeDict) >0:
         codeDict = sorted(codeDict.items(), key=lambda dic: dic[1])
-        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0])
-        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---getcodes:' +codesStr +'---finalcode:' +codeDict[-1][0])
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---getcodes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
         # logFile.flush()
         return HttpResponse(codeDict[-1][0])
     else:
