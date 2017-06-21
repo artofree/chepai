@@ -74,7 +74,8 @@ expPhotoList = []
 drillList =[]
 #当前打码状态：0，未开始 1，开始倒计时 2，预览码 3第一码 4第二码
 idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码)[url,{user:[码，时间]}]],当前打码状态}
-authDict ={}#{'test':'362229198511230013' ,'test2':'0002'}
+authDict ={}#{'qc01':'362229198511230013' ,'qc02':'362229198511230013'}
+chepaiDict ={}#{'qc01':'chepaiguo1' ,'qc02':'chepaiguo2'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
 codeMonth ='2017_07'
@@ -111,6 +112,9 @@ def init():
             authList =subList[3].split('-')
             for user in authList:
                 authDict[user] =subList[0]
+            #chepaiDict
+            for user in authList:
+                chepaiDict[user] =subList[4]
             #idDict
                 idDict[subList[0]][1][1][user] =['0' ,'0']
                 idDict[subList[0]][2][1][user] =['0' ,'0']
@@ -133,8 +137,8 @@ def dologin(request):
     if user:
         # request.session['user_id'] =user.id
         auth.login(request, user)
-        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login')
-        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +username +'---' +'login' +'\n')
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[username] +'---' +username +'---' +'login')
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[username] +'---' +username +'---' +'login' +'\n')
         # logFile.flush()
         return HttpResponseRedirect('mainpage')
         # return HttpResponse("hello")
@@ -276,8 +280,8 @@ def setCode(request):
         whichCode[usr][1] =times
     finally:
         lock.release()
-    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times)
-    # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
+    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[usr] +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times)
+    # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[usr] +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
     # logFile.flush()
 
 ##########################################################################
@@ -297,8 +301,10 @@ def uploadPic(request):
                 for chunk in pic.chunks():
                     destination.write(chunk)
             idDict[idt][3] =times +2
-            print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0])
-            # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---uploadpic' +'---' +idDict[idt][times][0]+'\n')
+            for k,v in authDict.items():
+                if v ==idt:
+                    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---uploadpic' +'---to:' +idDict[idt][times][0])
+            # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---uploadpic' +'---to:' +idDict[idt][times][0]+'\n')
             # logFile.flush()
         finally:
             lock.release()
@@ -325,13 +331,17 @@ def getTrueCode(request):
     codesStr +=')'
     if len(codeDict) >0:
         codeDict = sorted(codeDict.items(), key=lambda dic: dic[1])
-        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0])
-        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
+        for k,v in authDict.items():
+                if v ==idt:
+                    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0])
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
         # logFile.flush()
         return HttpResponse(codeDict[-1][0])
     else:
-        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---getnothing')
-        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---id:' +idt +'---getnothing'+'\n')
+        for k,v in authDict.items():
+                if v ==idt:
+                    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---getnothing')
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---getnothing'+'\n')
         return HttpResponse('')
 
 def setTimeStamp(request):
@@ -381,7 +391,7 @@ def setVersionContent(request):
         for chunk in verFile.chunks():
             destination.write(chunk)
     curVersion +=1
-    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion))
+    #print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion))
     # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'------changeversion to:' +str(curVersion)+'\n')
     # logFile.flush()
     return HttpResponse('ok!')
