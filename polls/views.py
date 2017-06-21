@@ -266,7 +266,7 @@ def getStatus(request):
 #根据状态码决定是哪个码
 @login_required(login_url='login')
 def setCode(request):
-    print(datetime.datetime.now())
+    # print(datetime.datetime.now())
     usr = request.user.username
     if usr not in authDict:
         return HttpResponse('wrong!')
