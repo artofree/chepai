@@ -301,10 +301,8 @@ def uploadPic(request):
                 for chunk in pic.chunks():
                     destination.write(chunk)
             idDict[idt][3] =times +2
-            for k,v in authDict.items():
-                if v ==idt:
-                    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---uploadpic' +'---to:' +idDict[idt][times][0])
-            # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---uploadpic' +'---to:' +idDict[idt][times][0]+'\n')
+            print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.POST['hostName'] +'---uploadpic' +'---to:' +idDict[idt][times][0])
+            # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.POST['hostName'] +'---uploadpic' +'---to:' +idDict[idt][times][0]+'\n')
             # logFile.flush()
         finally:
             lock.release()
@@ -331,17 +329,13 @@ def getTrueCode(request):
     codesStr +=')'
     if len(codeDict) >0:
         codeDict = sorted(codeDict.items(), key=lambda dic: dic[1])
-        for k,v in authDict.items():
-                if v ==idt:
-                    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0])
-        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0])
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---codes:' +codesStr +'---finalcode:' +codeDict[-1][0]+'\n')
         # logFile.flush()
         return HttpResponse(codeDict[-1][0])
     else:
-        for k,v in authDict.items():
-                if v ==idt:
-                    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---getnothing')
-        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +k +'---id:' +idt +'---getnothing'+'\n')
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---getnothing')
+        # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +request.GET['hostName'] +'---id:' +idt +'---getnothing'+'\n')
         return HttpResponse('')
 
 def setTimeStamp(request):
