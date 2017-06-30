@@ -126,6 +126,7 @@ $(document).ready(function () {
         }
         if (theList[0] == '5') {
             $("#title").text('任务已结束，切勿刷新！请截图保存并私信发至群主');
+            clearInterval(heartbeatTimer);
         }
     };
 });
