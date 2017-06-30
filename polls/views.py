@@ -211,7 +211,7 @@ def stream_generator(usr):
     sleepTime =2
     oldTime =time.time()
     #新建连接，发送成功通知
-    print('new channel')
+    print('new channel.')
     yield u'data: 0-ok\n\n'
     while True:
         newTime =time.time()
