@@ -209,6 +209,7 @@ def stream_generator(usr):
     global timeStamp
     theStatus =0
     sleepTime =3
+    isFirstTime =True
     while True:
         theList =idDict[authDict[usr]]
         ret =''
@@ -248,6 +249,11 @@ def stream_generator(usr):
                 sleepTime =100000
                 print('end')
                 ret ='5'
+        #建立通道成功时通知客户端
+        if isFirstTime:
+            print('newChannel')
+            isFirstTime =False
+            yield u'data: ok\n\n'
         if ret !='':
             yield u'data: %s\n\n' % ret
         time.sleep(sleepTime)
