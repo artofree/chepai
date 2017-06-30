@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import get_object_or_404, render
-import os, sys ,threading, codecs, time, shutil ,random ,datetime
+import os, sys ,threading, codecs, time, shutil ,random ,datetime ,time
 # Create your views here.
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext, loader
@@ -208,19 +208,23 @@ def fight(request):
 def stream_generator(usr):
     global timeStamp
     theStatus =0
-    sleepTime =3
-    isFirstTime =True
+    sleepTime =2
+    oldTime =time.time()
+    #新建连接，发送成功通知
+    print('new channel')
+    yield u'data: 0-ok\n\n'
     while True:
+        newTime =time.time()
+        if newTime -oldTime >2:
+            yield u'data: 0-heartbeat\n\n'
+            oldTime =newTime
         theList =idDict[authDict[usr]]
         ret =''
-        # if timeStamp >59:
-        #     if theStatus ==5:
-        #         continue
         #1:倒计时数
         if theList[3] ==1:
             if theStatus !=1:
                 theStatus =1
-                sleepTime =0.5
+                sleepTime =0.3
             if timeStamp >0:
                 if theList[4] -int(timeStamp) >0:
                     ret ='1-' +str(theList[4] -int(timeStamp))
@@ -249,11 +253,6 @@ def stream_generator(usr):
                 sleepTime =100000
                 print('end')
                 ret ='5'
-        #建立通道成功时通知客户端
-        if isFirstTime:
-            print('newChannel')
-            isFirstTime =False
-            yield u'data: ok\n\n'
         if ret !='':
             yield u'data: %s\n\n' % ret
         time.sleep(sleepTime)

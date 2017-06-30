@@ -5,7 +5,19 @@ var firstRecord = 0;
 var theImgUrl;
 var theTimer;
 var userName;
+var heartbeatTime =0;
+var heartbeatTimer;
 //var testtimer;
+
+function checkHeartBeat(){
+    var myDate = new Date();
+    theTime = myDate.getTime();
+    //如果每次计时的5秒间隔里没有来心跳，提示刷新
+    if (theTime -heartbeatTime >5000){
+        $("#title").html('连接已断开，请刷新!');
+        clearInterval(heartbeatTimer);
+    }
+}
 
 function GetRandomNum(Min, Max) {
     var Range = Max - Min;
@@ -62,8 +74,18 @@ $(document).ready(function () {
     source = new EventSource("/getStatus");
     source.onmessage = function (event) {
         theList = event.data.split('-');
+        if (theList[0] == '0') {
+            if(theList[1] =='ok'){
+                $("#title").html('已成功建立连接,暂无任务进行');
+                heartbeatTimer = setInterval('checkHeartBeat()', 5000);
+            }
+            if(theList[1] =='heartbeat'){
+                var myDate = new Date();
+                heartbeatTime = myDate.getTime();
+            }
+        }
         if (theList[0] == '1') {
-            $("#title").html('验证将在<mark id="countdown"></mark>秒后开始');
+            $("#title").html('任务将在<mark id="countdown"></mark>秒后开始');
             $("#countdown").text(theList[1]);
         }
         if (theList[0] == '2') {
