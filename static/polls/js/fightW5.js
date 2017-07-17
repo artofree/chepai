@@ -77,6 +77,8 @@ $(document).ready(function () {
         if (theList[0] == '0') {
             if(theList[1] =='ok'){
                 $("#title").html('已成功建立连接,暂无任务进行');
+                var myDate = new Date();
+                heartbeatTime = myDate.getTime();
                 heartbeatTimer = setInterval('checkHeartBeat()', 5000);
             }
             if(theList[1] =='heartbeat'){
