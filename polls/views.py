@@ -137,7 +137,8 @@ def dologin(request):
     if user:
         # request.session['user_id'] =user.id
         auth.login(request, user)
-        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[username] +'---' +username +'---' +'login')
+        if username in authDict:
+            print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[username] +'---' +username +'---' +'login')
         # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[username] +'---' +username +'---' +'login' +'\n')
         # logFile.flush()
         return HttpResponseRedirect('mainpage')
@@ -285,7 +286,8 @@ def setCode(request):
         whichCode[usr][1] =times
     finally:
         lock.release()
-    print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[usr] +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times)
+    if usr in authDict:
+        print(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[usr] +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times)
     # logFile.write(str(datetime.datetime.now()) +'---' +'timeStame:' +str(timeStamp) +'---' +chepaiDict[usr] +'---' +usr +'---setCode:' +code +'---to:' +authDict[usr] +'---times:' +times +'\n')
     # logFile.flush()
 
