@@ -124,6 +124,7 @@ $(document).ready(function () {
             $("#train-timer").text(train_timer.toString());
             theTimer = setInterval('changeButton()', 1000);
             //testtimer = setInterval('testtype()', 2000);
+            $("input").focus();
         }
         if (theList[0] == '5') {
             $("#title").text('任务已结束，切勿刷新！请截图保存并私信发至群主');
