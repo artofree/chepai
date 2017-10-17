@@ -76,12 +76,12 @@ curVersion =0
 expPhotoList = []
 drillList =[]
 #当前打码状态：0，未开始 1，开始倒计时 2，预览码 3第一码 4第二码
-idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码)[url,{user:[码，时间]}]],当前打码状态}
+idDict ={}#{id:[[预览图url],(第一码)[url,{user:[码，时间]}],(第二码)[url,{user:[码，时间]}]],当前打码状态,第一码起始时间,4状态附加码}
 authDict ={}#{'qc01':'362229198511230013' ,'qc02':'362229198511230013'}
 chepaiDict ={}#{'qc01':'chepaiguo1' ,'qc02':'chepaiguo2'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
-codeMonth ='2017_09'
+codeMonth ='2017_10'
 lock = threading.Lock()
 
 def init():
@@ -109,8 +109,9 @@ def init():
             purl =os.path.join(purl ,codeMonth)
             url0 =os.path.join(purl ,subList[0] + '_' +'0.png')
             url1 =os.path.join(purl ,subList[0] + '_' +'1.png')
-            url2 =os.path.join(purl ,subList[0] + '_' +'2.png')
-            idDict[subList[0]] =[[url0] ,[url1 ,{}], [url2 ,{}] ,0 ,expCodeEnd]
+            # url2 =os.path.join(purl ,subList[0] + '_' +'2.png')
+            url2 =os.path.join(purl ,subList[0] + '_2_0.png')
+            idDict[subList[0]] =[[url0] ,[url1 ,{}], [url2 ,{}] ,0 ,expCodeEnd ,0]
             #authDict
             authList =subList[3].split('-')
             for user in authList:
@@ -212,6 +213,8 @@ def fight(request):
 def stream_generator(usr):
     global timeStamp
     theStatus =0
+    #因为第二码第一次来即设置为1了,所以此处初始值为1
+    secondStatus =1
     sleepTime =2
     oldTime =time.time()
     #新建连接，发送成功通知
@@ -251,6 +254,11 @@ def stream_generator(usr):
             if theStatus !=4:
                 theStatus =4
                 ret ='4-' +theList[2][0]
+            else:
+                if secondStatus !=theList[5]:
+                    secondStatus =theList[5]
+                    ret ='4-' +theList[2][0]
+                    print('status change---' +str(secondStatus) +'---' +theList[2][0])
         if timeStamp >59:
             if theStatus ==4:
                 theStatus =5
@@ -299,14 +307,19 @@ def setCode(request):
 def uploadPic(request):
     # print(datetime.datetime.now())
     if request.method == 'POST':
-        idt =request.POST['idt']
-        times =int(request.POST['times'])
-        pic =request.FILES['file']
-        purl =idDict[idt][times][0]
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        BASE_DIR =os.path.join(BASE_DIR ,purl)
         lock.acquire()
         try:
+            idt =request.POST['idt']
+            times =int(request.POST['times'])
+            pic =request.FILES['file']
+            purl =idDict[idt][times][0]
+            if times ==2:
+                #初始为0，第一次过来即设置为1,即2_1.png
+                idDict[idt][5] +=1
+                purl =purl[:-5] +str(idDict[idt][5]) +'.png'
+                idDict[idt][times][0] =purl
+            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            BASE_DIR =os.path.join(BASE_DIR ,purl)
             with open(BASE_DIR, 'wb+') as destination:
                 for chunk in pic.chunks():
                     destination.write(chunk)
