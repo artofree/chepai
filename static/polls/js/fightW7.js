@@ -7,7 +7,9 @@ var theTimer;
 var userName;
 var heartbeatTime =0;
 var heartbeatTimer;
-//var testtimer;
+var clockOffset =0;
+var clockTimer;
+
 
 function checkHeartBeat(){
     var myDate = new Date();
@@ -17,14 +19,6 @@ function checkHeartBeat(){
         clearInterval(heartbeatTimer);
     }
 }
-
-function GetRandomNum(Min, Max) {
-    var Range = Max - Min;
-    var Rand = Math.random();
-    return (Min + Math.round(Rand * Range));
-}
-
-var testCode = ['2345', '1234', '3465'];
 
 //$(document).ready(function () {
 //    if ( $.browser.webkit ) {
@@ -41,6 +35,27 @@ function initFrame() {
 function changeButton() {
     train_timer += 1;
     $("#train-timer").text(train_timer.toString());
+}
+
+function changeClock() {
+    var nowTime =Date.parse(new Date())/1000;
+    nowTime =nowTime +clockOffset;
+    var realTime =new Date(nowTime *1000);
+    var theHour =realTime.getHours().toString();
+    if(theHour.length ==1){
+        theHour ='0' +theHour;
+    }
+    $("#hour").text(theHour);
+    var theMinute =realTime.getMinutes().toString();
+    if(theMinute.length ==1){
+        theMinute ='0' +theMinute;
+    }
+    $("#minute").text(theMinute);
+    var theSecond =realTime.getSeconds().toString();
+    if(theSecond.length ==1){
+        theSecond ='0' +theSecond;
+    }
+    $("#second").text(theSecond);
 }
 
 //function testtype() {
@@ -75,7 +90,7 @@ $(document).ready(function () {
         theList = event.data.split('-');
         if (theList[0] == '0') {
             if(theList[1] =='ok'){
-                $("#title").html('已成功建立连接,暂无任务进行');
+                //$("#title").html('已成功建立连接,暂无任务进行');
                 var myDate = new Date();
                 heartbeatTime = myDate.getTime();
                 heartbeatTimer = setInterval('checkHeartBeat()', 5000);
@@ -86,6 +101,7 @@ $(document).ready(function () {
             }
         }
         if (theList[0] == '1') {
+            clearInterval(clockTimer);
             $("#title").html('任务将在<mark id="countdown"></mark>秒后开始');
             $("#countdown").text(theList[1]);
         }
@@ -137,6 +153,14 @@ $(document).ready(function () {
     $.get(parms.getusrname, function (ret) {
         $("#usrname").text(ret);
         userName = ret;
+    });
+    $.get(parms.getClock, function (ret) {
+        if(ret !='-'){
+            var nowTime =Date.parse(new Date())/1000;
+            clockOffset =parseInt(ret) -nowTime;
+            $("#title").html('当前时间为 <mark id="hour"></mark>:<mark id="minute"></mark>:<mark id="second"></mark>');
+            clockTimer =setInterval('changeClock()', 1000);
+        }
     });
     $("#theInput").keydown(function (event) {
         if (event.which == '13') {

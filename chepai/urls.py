@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^$', 'polls.views.login', name='login'),
     url(r'^dologin$', 'polls.views.dologin', name='dologin'),
     url(r'^getusrname$', 'polls.views.getusrname', name='getusrname'),
+    url(r'^getClock$', 'polls.views.getClock', name='getClock'),
     url(r'^getrsptime$', 'polls.views.getrsptime', name='getrsptime'),
     url(r'^mainpage$', 'polls.views.mainpage', name='mainpage'),
     url(r'^train$', 'polls.views.train', name='train'),

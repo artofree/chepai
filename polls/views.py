@@ -30,6 +30,8 @@ baseTime =baseH *3600 +baseM *60
 expCodeEnd =33
 ###预览码结束时间数,小于最早第一出价时间即可
 expEndTime =31
+###是否实战，实战或实战模拟当天设为1，平时为0
+isFight =1
 
 def makeTimeStamp():
     global timeStamp ,stampDlt ,status1Flag ,idDict
@@ -80,7 +82,7 @@ authDict ={}#{'qc01':'362229198511230013' ,'qc02':'362229198511230013'}
 chepaiDict ={}#{'qc01':'chepaiguo1' ,'qc02':'chepaiguo2'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
-codeMonth ='2018_01'
+codeMonth ='2018_02'
 lock = threading.Lock()
 
 def init():
@@ -155,6 +157,13 @@ def getusrname(request):
     if timeStamp >59:
         usr ='刷新过，已失效'
     return HttpResponse(usr)
+
+@login_required(login_url='login')
+def getClock(request):
+    ret ='-'
+    if isFight:
+        ret =str(int(time.time()))
+    return HttpResponse(ret)
 
 @login_required(login_url='login')
 def getrsptime(request):
