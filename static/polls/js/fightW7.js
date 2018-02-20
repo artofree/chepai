@@ -17,6 +17,7 @@ function checkHeartBeat(){
     if (myDate.getTime() -heartbeatTime >5000){
         $("#title").html('连接已断开，请刷新!');
         clearInterval(heartbeatTimer);
+        clearInterval(clockTimer)
     }
 }
 
