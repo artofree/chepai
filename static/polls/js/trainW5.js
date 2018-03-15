@@ -29,6 +29,8 @@ function getPhoto() {
         $("#train-img").attr("src", "/static/exp/" + theList[0] + ".png");
         var myDate = new Date();
         theTime = myDate.getTime();
+        train_timer = 0;
+        $("#train-timer").text("0");
     })
 }
 
@@ -86,8 +88,6 @@ $(document).ready(function () {
 $('#myModal').on('hidden.bs.modal', function (e) {
     getPhoto();
     $("#train-input").val("");
-    train_timer = 0;
-    $("#train-timer").text("0");
     inputString = "";
     $("input").focus();
 });
