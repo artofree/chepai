@@ -5,6 +5,7 @@ var theCode = "";
 var theTime = 0;
 var totalCorect = 0;
 var totalTimes =0;
+var changeButtonTimer;
 
 function changeButton() {
     train_timer += 1;
@@ -29,14 +30,17 @@ function getPhoto() {
         $("#train-img").attr("src", "/static/exp/" + theList[0] + ".png");
         var myDate = new Date();
         theTime = myDate.getTime();
+
         train_timer = 0;
         $("#train-timer").text("0");
+        clearInterval(changeButtonTimer);
+        changeButtonTimer =setInterval('changeButton()', second);
     })
 }
 
 function initFun() {
     initFrame();
-    setInterval('changeButton()', second);
+    changeButtonTimer =setInterval('changeButton()', second);
     getPhoto();
 }
 
