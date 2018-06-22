@@ -9,7 +9,7 @@ var countTimer;
 var countNum = 20;
 var yulanTime = 12;
 var yulanEndTime = 1;
-var firstDuring = 6000;
+var firstDuring = 16000;
 var drillList;
 
 
