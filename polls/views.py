@@ -204,7 +204,7 @@ def train(request):
 
 @login_required(login_url='login')
 def getTrainPhoto(request):
-    ret =expPhotoList[random.randint(0 ,79)]
+    ret =expPhotoList[random.randint(0 ,99)]
     return HttpResponse(ret)
 
 @login_required(login_url='login')
