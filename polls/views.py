@@ -90,7 +90,7 @@ authDict ={}#{'qc01':'362229198511230013' ,'qc02':'362229198511230013'}
 chepaiDict ={}#{'qc01':'chepaiguo1' ,'qc02':'chepaiguo2'}
 hostDict ={}#{'chepaiguo1' :['522101196702217638', '53833982', '4058', '39-45-500', '48-55.5-700']}
 
-codeMonth ='2018_08'
+codeMonth ='2018_09'
 lock = threading.Lock()
 
 def init():
