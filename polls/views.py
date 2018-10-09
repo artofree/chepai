@@ -329,7 +329,10 @@ def uploadPic(request):
             if times ==2:
                 #初始为0，第一次过来即设置为1,即2_1.png
                 idDict[idt][5] +=1
-                purl =purl[:-5] +str(idDict[idt][5]) +'.png'
+                if idDict[idt][5] >10:
+                    purl =purl[:-6] +str(idDict[idt][5]) +'.png'
+                else:
+                    purl =purl[:-5] +str(idDict[idt][5]) +'.png'
                 idDict[idt][times][0] =purl
             BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             BASE_DIR =os.path.join(BASE_DIR ,purl)
